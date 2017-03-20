@@ -1,6 +1,6 @@
 ---
 title: "mp_2"
-author: "Laura Rosenbauer, ,Maggie Carttar"
+author: "Laura Rosenbauer, Kalani Williams, Maggie Carttar"
 date: "3/10/2017"
 output: html_document
 ---
