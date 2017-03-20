@@ -5,7 +5,7 @@ date: "March 24, 2017"
 output: html_document
 ---
 
-Yay words and making changes and more changes
+changes
 
 ## Loading the data
 
