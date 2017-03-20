@@ -48,3 +48,7 @@ hc_stats_2 <- left_join(hc_stats, house_elections, by = "cand_id") %>%
   select(cand_id, total_contribution, n_contributions, avg_contribution, candidate_name, party, ge_winner, incumbent)
 ```
 
+```{r}
+ggplot(data=hc_stats_2, aes(fill=incumbent, x=ge_winner)) + geom_bar()
+```
+
