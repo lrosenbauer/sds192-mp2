@@ -15,3 +15,8 @@ load("candidates.rda")
 load("committees.rda")
 load("contributions.rda")
 ```
+
+```{r}
+house_elections <- rename(house_elections, cand_id = fec_id)
+```
+
