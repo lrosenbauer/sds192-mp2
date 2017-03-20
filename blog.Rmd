@@ -19,7 +19,6 @@ library(dplyr)
 library(ggplot2)
 library(oilabs)
 library(ggthemes)
-library(mosaic)
 library(tidyverse)
 ```
 # Rename variable to facilitate join.
@@ -41,6 +40,6 @@ hc_stats <- house_contributions %>%
   mutate(parse_number(transaction_amt)) %>%
   # candidates with no transaction data were removed
   filter(tran_id != "NA") %>%
-  summarise(total_contribution = sum(transaction_amt), n_contributions = n_distinct(tran_id))
+  summarise(total_contribution = sum(transaction_amt), n_contributions = n_distinct(tran_id), avg_contribution = total_contribution/n_contributions)
 ```
 
