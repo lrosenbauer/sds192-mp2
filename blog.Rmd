@@ -40,6 +40,6 @@ hc_stats <- house_contributions %>%
   mutate(parse_number(transaction_amt)) %>%
   # candidates with no transaction data were removed
   filter(tran_id != "NA") %>%
-  summarise(total_contribution = sum(transaction_amt))
+  summarise(total_contribution = sum(transaction_amt), n_contributions = n_distinct(tran_id))
 ```
 
