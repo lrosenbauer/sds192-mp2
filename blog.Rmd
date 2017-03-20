@@ -1,6 +1,6 @@
 ---
 title: "Mini-Project 2"
-author: "Your Name Here"
+author: "Laura Rosenbauer, Kalani Williams, Maggie Carttar"
 date: "March 24, 2017"
 output: html_document
 ---
