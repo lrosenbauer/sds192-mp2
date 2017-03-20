@@ -18,7 +18,11 @@ load("contributions.rda")
 
 ```{r}
 house_elections <- rename(house_elections, cand_id = fec_id)
+```
 
+```{r}
 house_contributions <- full_join(house_elections, contributions, by = "cand_id")
+
+house_contributions <- slice(house_contributions, 4:397472)
 ```
 
