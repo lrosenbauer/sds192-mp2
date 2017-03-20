@@ -15,6 +15,12 @@ load("house_elections.rda")
 load("candidates.rda")
 load("committees.rda")
 load("contributions.rda")
+library(dplyr)
+library(ggplot2)
+library(oilabs)
+library(ggthemes)
+library(mosaic)
+library(tidyverse)
 ```
 # Rename variable to facilitate join.
 ```{r}
@@ -26,6 +32,15 @@ house_contributions <- full_join(house_elections, contributions, by = "cand_id")
 
 house_contributions <- house_contributions %>%
   filter(ge_winner != "")
+```
 
+
+```{r}
+hc_stats <- house_contributions %>%
+  group_by(cand_id) %>%
+  mutate(parse_number(transaction_amt)) %>%
+  # candidates with no transaction data were removed
+  filter(tran_id != "NA") %>%
+  summarise(total_contribution = sum(transaction_amt))
 ```
 
