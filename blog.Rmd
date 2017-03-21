@@ -15,6 +15,7 @@ library(ggplot2)
 library(oilabs)
 library(ggthemes)
 library(tidyverse)
+library(scales)
 ```
 
 
