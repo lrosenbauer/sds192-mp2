@@ -55,10 +55,7 @@ ggplot(data=hc_stats_2, aes(fill=incumbent, x=ge_winner)) + geom_bar() + scale_f
 
 
 ```{r}
-ggplot(data=hc_stats_2, aes(x = n_contributions, y = total_contribution, color = ge_winner)) + geom_point(alpha = 3/10) + labs(list(title = "How Grass-Roots Are the Candidates?", x = "Number of Contributions", y = "Total Contributions")) + scale_color_discrete(labels = c("N" = "Lost", "W" = "Won"))
 
-ggplot(data=hc_stats_2, aes(x = n_contributions, y = total_contribution, color = party)) + geom_point(alpha = 3/10)
-=======
 ggplot(data=hc_stats_2, aes(x = n_contributions, y = total_contribution, color = ge_winner, alpha = 7/10)) + geom_point() + labs(list(title = "How Grass-Roots Are the Candidates?", x = "Number of Contributions", y = "Total Contributions", color = "")) + scale_color_discrete(labels = c("N" = "Lost", "W" = "Won")) + scale_y_continuous(labels = dollar)
 
 ggplot(data=hc_stats_2, aes(x = n_contributions, y = total_contribution, color = incumbent, alpha = 7/10)) + geom_point() + scale_y_continuous(labels = dollar)
