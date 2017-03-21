@@ -46,7 +46,7 @@ hc_stats_2 <- left_join(hc_stats, house_elections, by = "cand_id") %>%
 ```
 
 ```{r}
-ggplot(data=hc_stats_2, aes(fill=incumbent, x=ge_winner)) + geom_bar() + scale_fill_pander() + labs(list(title = "How Often do Incumbents Win?", x = "Election Results", y = "Count", color = "Incumbent Status"))
+ggplot(data=hc_stats_2, aes(fill=incumbent, x=ge_winner)) + geom_bar() + scale_fill_pander() + labs(list(title = "How Often do Incumbents Win?", x = "Election Results", y = "Count", color = "Incumbent Status")) + scale_x_discrete(labels = c("N" = "Lost", "W" = "Won"))
 ```
 
 
