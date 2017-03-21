@@ -4,8 +4,9 @@ author: "Laura Rosenbauer, Kalani Williams, Maggie Carttar"
 date: "March 24, 2017"
 output: html_document
 ---
+
 ```{r, include=FALSE}
-library(dplyr)
+
 load("house_elections.rda")
 load("candidates.rda")
 load("committees.rda")
@@ -23,28 +24,30 @@ library(tidyverse)
 house_elections <- rename(house_elections, cand_id = fec_id)
 ```
 
+# Join house election table with contributions table
 ```{r}
 house_contributions <- full_join(house_elections, contributions, by = "cand_id")
 
 house_contributions <- house_contributions %>%
-  filter(ge_winner != "")
+  filter(ge_winner != "") # remove rows with blank spaces for election results column
 ```
 
-
+# Create new object with statistics for newly joined table
 ```{r}
 hc_stats <- house_contributions %>%
-  group_by(cand_id) %>%
-  mutate(parse_number(transaction_amt)) %>%
-  # candidates with no transaction data were removed
-  filter(tran_id != "NA") %>%
-  summarise(total_contribution = sum(transaction_amt), n_contributions = n_distinct(tran_id), avg_contribution = total_contribution/n_contributions)
+  group_by(cand_id) %>% # consolidate data for each candidate
+  mutate(parse_number(transaction_amt)) %>% # candidates with no transaction data were removed
+  filter(tran_id != "NA") %>% # remove rows without transaction data
+  summarise(total_contribution = sum(transaction_amt), n_contributions = n_distinct(tran_id), avg_contribution = total_contribution/n_contributions) # create new variables for total contribution per candidate, number of contributions per candidate, and average contribution per candidate
 ```
 
+# Add variables from house election data to hc_stats
 ```{r}
 hc_stats_2 <- left_join(hc_stats, house_elections, by = "cand_id") %>%
   select(cand_id, total_contribution, n_contributions, avg_contribution, candidate_name, party, ge_winner, incumbent)
 ```
 
+# Plot ratio of winners and losers within incumbents and new candidates
 ```{r}
 ggplot(data=hc_stats_2, aes(fill=incumbent, x=ge_winner)) + geom_bar() + scale_fill_pander() + labs(list(title = "How Often do Incumbents Win?", x = "Election Results", y = "Count", color = "Incumbent Status")) + scale_x_discrete(labels = c("N" = "Lost", "W" = "Won"))
 ```
