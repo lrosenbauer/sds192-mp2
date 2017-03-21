@@ -4,11 +4,6 @@ author: "Laura Rosenbauer, Kalani Williams, Maggie Carttar"
 date: "March 24, 2017"
 output: html_document
 ---
-
-
-## Loading the data
-
-
 ```{r, include=FALSE}
 library(dplyr)
 load("house_elections.rda")
