@@ -49,7 +49,7 @@ hc_stats_2 <- left_join(hc_stats, house_elections, by = "cand_id") %>% select(ca
 
 # Plot ratio of winners and losers within incumbents and new candidates
 ```{r}
-ggplot(data=hc_stats_2, aes(fill=incumbent, x=ge_winner)) + geom_bar() + scale_fill_pander() + labs(list(title = "How Often do Incumbents Win?", x = "Election Results", y = "Count", color = "Incumbent Status")) + scale_x_discrete(labels = c("N" = "Lost", "W" = "Won"))
+ggplot(data=hc_stats_2, aes(fill=incumbent, x=ge_winner)) + geom_bar() + scale_fill_tableau(labels = c("FALSE" = "Non-Incument", "TRUE" = "Incumbent")) + labs(list(title = "How Often do Incumbents Win?", x = "Election Results", y = "Count", fill = "Incumbent Status")) + scale_x_discrete(labels = c("N" = "Lost", "W" = "Won"))
 ```
 
 
@@ -57,6 +57,6 @@ ggplot(data=hc_stats_2, aes(fill=incumbent, x=ge_winner)) + geom_bar() + scale_f
 
 ggplot(data=hc_stats_2, aes(x = n_contributions, y = total_contribution, color = ge_winner)) + geom_point(alpha = 5/10) + labs(list(title = "Donations: How Many and How Big?", x = "Number of Contributions", y = "Total Contributions", color = "")) + scale_color_discrete(labels = c("N" = "Lost", "W" = "Won")) + scale_y_continuous(labels = dollar)
 
-ggplot(data=hc_stats_2, aes(x = n_contributions, y = total_contribution, color = incumbent)) + geom_point(alpha = 5/10) + labs(list(title = "How Grass-Roots Are the Incumbents?", x = "Number of Contributions", y = "Total Contributions", color = "")) + scale_color_discrete(labels = c("TRUE" = "Incumbent", "FALSE" = "Non-Incumbent")) + scale_y_continuous(labels = dollar) + scale_color_pander()
+ggplot(data=hc_stats_2, aes(x = n_contributions, y = total_contribution, color = incumbent)) + geom_point(alpha = 5/10) + labs(list(title = "How Grass-Roots Are the Incumbents?", x = "Number of Contributions", y = "Total Contributions", color = "")) + scale_y_continuous(labels = dollar) + scale_color_tableau(labels = c("TRUE" = "Incumbent", "FALSE" = "Non-Incumbent" ))
 ```
 
