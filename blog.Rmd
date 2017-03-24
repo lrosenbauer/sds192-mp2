@@ -20,20 +20,20 @@ library(scales)
 ```
 
 
-# Rename variable to facilitate join.
+
 ```{r}
-house_elections <- rename(house_elections, cand_id = fec_id)
+house_elections <- rename(house_elections, cand_id = fec_id) # Rename variable to facilitate join.
 ```
 
-# Join house election table with contributions table
+
 ```{r}
-house_contributions <- full_join(house_elections, contributions, by = "cand_id") %>% filter(transaction_type != "24A" & transaction_type != "24N") 
+house_contributions <- full_join(house_elections, contributions, by = "cand_id") %>% filter(transaction_type != "24A" & transaction_type != "24N") # Join house election table with contributions table 
 
 house_contributions <- house_contributions %>%
   filter(ge_winner != "") # remove rows with blank spaces for election results column
 ```
 
-# Create new object with statistics for newly joined table
+
 ```{r}
 hc_stats <- house_contributions %>%
   group_by(cand_id) %>% # consolidate data for each candidate
@@ -42,22 +42,32 @@ hc_stats <- house_contributions %>%
   summarise(total_contribution = sum(transaction_amt), n_contributions = n_distinct(tran_id), avg_contribution = total_contribution/n_contributions) # create new variables for total contribution per candidate, number of contributions per candidate, and average contribution per candidate
 ```
 
-# Add variables from house election data to hc_stats
+
 ```{r}
-hc_stats_2 <- left_join(hc_stats, house_elections, by = "cand_id") %>% select(cand_id, total_contribution, n_contributions, avg_contribution, candidate_name, party, ge_winner, incumbent)
+hc_stats_2 <- left_join(hc_stats, house_elections, by = "cand_id") %>% select(cand_id, total_contribution, n_contributions, avg_contribution, candidate_name, party, ge_winner, incumbent) # Add variables from house election data to hc_stats
 ```
+
+In the following graph, each candidate is mapped to a dot, with the dot's color corresponding to election results for that candidate.
+
+We can see a positive correlation between number of contributions and total value of contributions. The data has been filtered so that only conbtributions in support of (not opposing) the candidate are included. It appears that those candidates who receive a higher number of contributions are more likely to win their elections.
+
 
 
 ```{r}
 ggplot(data=hc_stats_2, aes(x = n_contributions, y = total_contribution, color = ge_winner)) + geom_point(alpha = 6/10) + labs(list(title = "Donations: How Many and How Big?", x = "Number of Contributions", y = "Total Contributions", color = "")) + scale_color_brewer(labels = c("N" = "Lost", "W" = "Won"), palette = "Accent") + scale_y_continuous(labels = dollar) + theme_hc()
+```
 
+The following graph uses the same axes, only with color now mapped to incumbent status instead of election outcome.
+
+```{r}
 ggplot(data=hc_stats_2, aes(x = n_contributions, y = total_contribution, color = incumbent)) + geom_point(alpha = 4/10) + labs(list(title = "How Grass-Roots Are the Incumbents?", x = "Number of Contributions", y = "Total Contributions", color = "")) + scale_y_continuous(labels = dollar) + scale_color_tableau(labels = c("TRUE" = "Incumbent", "FALSE" = "Non-Incumbent" )) + theme_hc()
 ```
 
-Notice how these graphs look very similar. This is likely due to the overall trend of incumbents winning more elections. We can see how common this trend is in the following graph:
+Notice how the two scatterplots above look very similar in terms of the trends of each color. This is likely due to the phenomenon of incumbents winning more elections than their counterparts. We can see how common this trend is in the following graph, where color is again mapped to incumbent status:
 
-# Ratio of winners and losers within incumbents and new candidates
 ```{r}
 ggplot(data=hc_stats_2, aes(fill=incumbent, x=ge_winner)) + geom_bar() + scale_fill_tableau(labels = c("FALSE" = "Non-Incument", "TRUE" = "Incumbent")) + labs(list(title = "How Often do Incumbents Win?", x = "Election Results", y = "Count", fill = "Incumbent Status")) + scale_x_discrete(labels = c("N" = "Lost", "W" = "Won")) + theme_hc()
+
 ```
 
+These data seem to suggest that incumbents both receive more contributions and win more elecitons. This is possibly due to several factors including name recognition, track record, resources associated with holding office, all of which benefit incumbent candidates.
